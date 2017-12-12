@@ -13,7 +13,7 @@ it using settings.
 * Filter-Labels
 * (ToDo) Integration of Rene8888s repost-check
 * (ToDo) Highlighting of previously visited posts
-* (ToDo) Cheap "stelz"
+* (ToDo) User Favorites
 * (ToDo) Slideshow mode
 * (ToDo) Improved search
 
