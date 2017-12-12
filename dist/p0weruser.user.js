@@ -5,7 +5,7 @@
 // @description	Erweitert pr0gramm.com um weitere Funktionen
 // @include		/^https?://pr0gramm.com/.*$/
 // @icon		https://pr0gramm.com/media/pr0gramm-favicon.png
-// @version		0.4.7
+// @version		0.5.0
 // @grant		GM_notification
 // @require     https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
 // @updateURL	https://github.com/FlorianMaak/p0weruser/raw/master/dist/p0weruser.js
@@ -639,7 +639,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__module_AdvancedComments__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__module_NotificationCenter__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__module_DesktopNotifications__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__module_filterMarks__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__module_FilterMarks__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__module_UserFavorites__ = __webpack_require__(36);
+
 
 
 
@@ -719,7 +721,8 @@ class P0weruser {
                 'AdvancedComments': new __WEBPACK_IMPORTED_MODULE_7__module_AdvancedComments__["a" /* default */](),
                 'NotificationCenter': new __WEBPACK_IMPORTED_MODULE_8__module_NotificationCenter__["a" /* default */](),
                 'DesktopNotifications': new __WEBPACK_IMPORTED_MODULE_9__module_DesktopNotifications__["a" /* default */](),
-                'FilterMarks': new __WEBPACK_IMPORTED_MODULE_10__module_filterMarks__["a" /* default */]()
+                'FilterMarks': new __WEBPACK_IMPORTED_MODULE_10__module_FilterMarks__["a" /* default */](),
+                'UserFavorites': new __WEBPACK_IMPORTED_MODULE_11__module_UserFavorites__["a" /* default */]()
             };
         }
 
@@ -1733,6 +1736,7 @@ class AdvancedComments {
         p.shouldShowScore = () => {
             return true;
         };
+
         window.addEventListener('commentsLoaded', () => {
             const comments = $('.comments .comment-box .comment');
             comments.tooltip();
@@ -2144,6 +2148,71 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 // module
 exports.push([module.i, ".item-details .badge {\n  padding: 3px 5px;\n  font-size: 10px;\n  margin-left: 10px;\n  border-radius: 3px;\n}\n.item-details .badge.sfw {\n  background-color: #5cb85c;\n}\n.item-details .badge.nsfw {\n  background-color: #f0ad4e;\n}\n.item-details .badge.nsfl {\n  background-color: #d9534f;\n}\n.item-details .badge.nsfp {\n  background-color: #ee4d2e;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class UserFavorites {
+    constructor() {
+        this.name = 'Benutzer Favoriten';
+        this.description = 'Markiere Benutzer als Favoriten und bleibe auf dem Laufenden.'
+    }
+
+
+    load() {
+        this.styles = __webpack_require__(37);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = UserFavorites;
+
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(38);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/cjs.js!./userFavorites.less", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/cjs.js!./userFavorites.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
 
 // exports
 

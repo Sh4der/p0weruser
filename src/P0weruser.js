@@ -8,7 +8,8 @@ import scrollbarCSS from '../bower_components/simplebar/dist/simplebar.css';
 import AdvancedComments from './module/AdvancedComments';
 import NotificationCenter from './module/NotificationCenter';
 import DesktopNotifications from './module/DesktopNotifications';
-import FilterMarks from './module/filterMarks';
+import FilterMarks from './module/FilterMarks';
+import UserFavorites from './module/UserFavorites';
 
 export default class P0weruser {
     constructor() {
@@ -77,7 +78,8 @@ export default class P0weruser {
                 'AdvancedComments': new AdvancedComments(),
                 'NotificationCenter': new NotificationCenter(),
                 'DesktopNotifications': new DesktopNotifications(),
-                'FilterMarks': new FilterMarks()
+                'FilterMarks': new FilterMarks(),
+                'UserFavorites': new UserFavorites()
             };
         }
 
