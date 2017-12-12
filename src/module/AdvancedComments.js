@@ -24,7 +24,7 @@ export default class AdvancedComments {
             return true;
         };
 
-        window.addEventListener('commentsLoaded', () => {
+        window.addEventListener('pageLoaded', () => {
             const comments = $('.comments .comment-box .comment');
             comments.tooltip();
             for(let i = 0; i < comments.length; i++) {

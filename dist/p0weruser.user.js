@@ -1046,7 +1046,7 @@ module.exports = function (css) {
 class EventHandler {
     constructor() {
         this.settingsLoaded = new Event('settingsLoaded');
-        this.commentsLoaded = new Event('commentsLoaded');
+        this.pageLoaded = new Event('pageLoaded');
         this.locationChange = new Event('locationChange');
         this.beforeLocationChange = new Event('beforeLocationChange');
         this.userSync = new Event('userSync');
@@ -1080,14 +1080,13 @@ class EventHandler {
             };
         }(p.navigateTo));
 
-        // Add commentsloaded-event
-        (function(render) {
-            p.View.Stream.Comments.prototype.render = function() {
-                render.call(this);
-                window.dispatchEvent(_this.commentsLoaded);
-
+        // Add Page-Loaded Event
+        (function (render) {
+            p.View.Base.prototype.render = function (params) {
+                render.call(this, params);
+                window.dispatchEvent(_this.pageLoaded);
             };
-        }(p.View.Stream.Comments.prototype.render));
+        }(p.View.Base.prototype.render));
 
         (function (syncCallback) {
             p.User.prototype.syncCallback = function (response) {
@@ -1737,7 +1736,7 @@ class AdvancedComments {
             return true;
         };
 
-        window.addEventListener('commentsLoaded', () => {
+        window.addEventListener('pageLoaded', () => {
             const comments = $('.comments .comment-box .comment');
             comments.tooltip();
             for(let i = 0; i < comments.length; i++) {
@@ -2157,6 +2156,9 @@ exports.push([module.i, ".item-details .badge {\n  padding: 3px 5px;\n  font-siz
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Utils__ = __webpack_require__(2);
+
+
 class UserFavorites {
     constructor() {
         this.name = 'Benutzer Favoriten';
@@ -2166,6 +2168,76 @@ class UserFavorites {
 
     load() {
         this.styles = __webpack_require__(37);
+        this.menuEntry = {};
+        this.user = document.getElementById('user-profile-name').href;
+        this.user = this.user.substr(this.user.lastIndexOf('/') + 1);
+
+        this.templates = {
+            toggle: `<span class="fa fa-star favoriteToggle" title="(De-)Favorisieren"></span>`,
+            menuEntry: `<a id="tab-fav" class="head-tab">fav</a>`
+        };
+        this.userFavorites = window.localStorage.getItem('userFavorites');
+
+        if(! this.userFavorites) {
+            window.localStorage.setItem('userFavorites', '[]');
+            this.userFavorites = [];
+        } else {
+            this.userFavorites = JSON.parse(this.userFavorites);
+        }
+
+        this.addCommentsListener();
+        this.addMenuEntry();
+    }
+
+
+    addCommentsListener() {
+        window.addEventListener('pageLoaded', () => {
+            let commentUsers = $('.user:not(.user-mark):not([href*="' + this.user + '"])');
+            commentUsers.tooltip();
+
+            for(let i = 0; i < commentUsers.length; i++) {
+                this.addToggleIcon(commentUsers[i]);
+            }
+        });
+    }
+
+
+    addMenuEntry() {
+        let stalkLink = document.getElementById('tab-stalk');
+        this.menuEntry = $(this.templates.menuEntry);
+
+        __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* default */].insertAfter(this.menuEntry[0], stalkLink);
+        console.log(this.menuEntry);
+    }
+
+
+    addToggleIcon(userElement) {
+        if(! userElement.nextSibling.classList) {
+            __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* default */].insertAfter($(this.templates.toggle)[0], userElement);
+            let toggle = userElement.nextSibling;
+
+            if(this.userFavorites.indexOf(userElement.innerText) !== -1) {
+                toggle.classList.add('active');
+            }
+
+            toggle.addEventListener('click', () => {
+                this.toggleUserFavorite(userElement.innerText);
+            });
+        }
+    }
+
+
+    toggleUserFavorite(userName) {
+        const index = this.userFavorites.indexOf(userName);
+
+        if(index !== -1) {
+            this.userFavorites.splice(index, 1);
+        } else {
+            this.userFavorites.push(userName);
+        }
+
+        $('[href*="/' + userName + '"] + .favoriteToggle').toggleClass('active');
+        window.localStorage.setItem('userFavorites', JSON.stringify(this.userFavorites));
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = UserFavorites;
@@ -2212,7 +2284,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".favoriteToggle {\n  margin-left: 5px;\n  cursor: pointer;\n  font-size: 12px;\n}\n.favoriteToggle.active {\n  color: #ee4d2e;\n}\n", ""]);
 
 // exports
 

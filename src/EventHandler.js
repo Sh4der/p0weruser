@@ -1,7 +1,7 @@
 export default class EventHandler {
     constructor() {
         this.settingsLoaded = new Event('settingsLoaded');
-        this.commentsLoaded = new Event('commentsLoaded');
+        this.pageLoaded = new Event('pageLoaded');
         this.locationChange = new Event('locationChange');
         this.beforeLocationChange = new Event('beforeLocationChange');
         this.userSync = new Event('userSync');
@@ -35,14 +35,13 @@ export default class EventHandler {
             };
         }(p.navigateTo));
 
-        // Add commentsloaded-event
-        (function(render) {
-            p.View.Stream.Comments.prototype.render = function() {
-                render.call(this);
-                window.dispatchEvent(_this.commentsLoaded);
-
+        // Add Page-Loaded Event
+        (function (render) {
+            p.View.Base.prototype.render = function (params) {
+                render.call(this, params);
+                window.dispatchEvent(_this.pageLoaded);
             };
-        }(p.View.Stream.Comments.prototype.render));
+        }(p.View.Base.prototype.render));
 
         (function (syncCallback) {
             p.User.prototype.syncCallback = function (response) {
